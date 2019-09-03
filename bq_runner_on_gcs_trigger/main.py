@@ -14,9 +14,10 @@ def load_dapo(data, context):
 
     table_ref = client.dataset(TARGET_DATASET).table(TARGET_TABLE)
     job_config = bigquery.LoadJobConfig()
-    job_config.write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
+    job_config.write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
     job_config.source_format = bigquery.SourceFormat.CSV
     job_config.field_delimiter = '|'
+    job_config.quote_character = ""
     load_job = client.load_table_from_uri(fileUri, table_ref, job_config=job_config)  # API request
     load_job.result()  # Waits for table load to complete.
 
@@ -35,7 +36,6 @@ def readFilesFromDir(dir):
     files = []
     for file in os.listdir(dir):
         filepath = os.path.join(dir, file)
-        f = open(filepath, 'r')
-        files += f.readlines()
-        f.close()
+        with open(filepath, 'r') as f:
+            files.append(f.read())
     return files
