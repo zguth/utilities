@@ -8,7 +8,7 @@ TARGET_TABLE = '[CHANGE_TO_TARGET_TABLE]'
 # GCP libraries
 client = bigquery.Client()
 
-def load_dapo(data, context):
+def run_sql_scripts(data, context):
     fileUri = getFileLink(data)
     print("Run triggered by file: {}.".format(fileUri))
 
